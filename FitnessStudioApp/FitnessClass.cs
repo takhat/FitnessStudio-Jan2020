@@ -1,42 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
+
 
 namespace FitnessStudioApp
 {
-    enum TitleofClass
-    {
-        CrossFit,
-        HathaYoga,
-        MatPilates,
-        PowerYoga,
-        Swimming,
-        ZumbaFitness,
-        FlexFit
-    };
-
-    enum TypeOfMembership
-    {
-        FreeTrial=0,
-        SingleClassPass = 20,
-        TenClassPass = 180,
-        TwentyClassPass = 350,
-        MonthlyFlexFitPass = 200,
-        QuarterlyFlexFitPass = 500,
-        AnnualFlexFitPass = 900
-    };
+  
     // This represents Fitness Studio App where customers can view, sign up for and withdraw from classes.
     /// </summary>
-    class Classes
+    
+    
+    class FitnessClass
     {
-        private static int lastClassID = 100;
-        private static int SignUpCount = 0;
+        //private static int lastClassID = 100;
+        private int SignUpCount = 0;
         
         # region Properties
-        /// <summary>
+        /*/// <summary>
         /// Unique Class ID
         /// </summary>
-        public int ClassID { get; private set; }
+        public int ClassID { get; private set; }*/
         /// <summary>
         /// Select the class Title
         /// </summary>
@@ -60,19 +44,16 @@ namespace FitnessStudioApp
         /// <summary>
         /// First day of the class
         /// </summary>
-        public DateTime StartDate { get; set; }
+        public string StartDate { get; set; }
         /// <summary>
         /// Last day of the class
         /// </summary>
-        public DateTime EndDate { get; set; }
+        public string EndDate { get; set; }
         /// <summary>
         /// Name of the instructor assigned
         /// </summary>
         public string Instructor { get; set; }
-        /// <summary>
-        /// Pricing options e.g. Single class, 10-class pass, Monthly pass
-        /// </summary>
-        public TypeOfMembership MembershipType { get; set; }
+       
         /// <summary>
         /// Maximum number of participants allowed
         /// </summary>
@@ -81,26 +62,32 @@ namespace FitnessStudioApp
         /// Spaces still available for registration
         /// </summary>
         public int SpacesAvailable { get; set; }
-        public int SignedUpCustomerID { get; set; }
+        /// <summary>
+        /// Signed Up Customer IDs 
+        /// </summary>
+        private List<int> EnrolledCustomerIDs { get; set; }
         #endregion
 
 
         #region Constructor
-        public Classes()
+        /*public FitnessClass()
         {
             ClassID = ++lastClassID;
             
-        }
-        #endregion
+        }*/
+        #endregion 
+
         #region Methods
-        public void SignUp(int CustomerID, TypeOfMembership Price)
+        public void SignUp(int CustomerID)
 
         {
             SignUpCount = ++SignUpCount;
             SpacesAvailable = ClassSize - SignUpCount;
-            SignedUpCustomerID = CustomerID;
-            MembershipType = Price;
+            EnrolledCustomerIDs.Add(CustomerID);
         }
         #endregion
+    
     }
+
+    
 }

@@ -6,8 +6,52 @@ namespace FitnessStudioApp
     {
         static void Main(string[] args)
         {
-            var myAccount = FitnessStudio.CreateAccount("New Customer", "123 St NE Redmond 98052", "555-55-5555", TitleofClass.FlexFit, TypeOfMembership.MonthlyFlexFitPass);
-            Console.WriteLine($"AN:{myAccount.CustomerID},ADD: {myAccount.CustomerAddress}, PH: {myAccount.CustomerPhone}, Title: {myAccount.ClassTitle} ");
+            Console.WriteLine("*********************");
+            Console.WriteLine("Welcome to my Fitness Studio!");
+            while (true)
+            {
+                Console.WriteLine("0. Exit");
+                Console.WriteLine("1. Create a new Customer Account");
+                Console.WriteLine("2. Sign up for a class");
+                Console.WriteLine("3. View all transactions");
+                Console.WriteLine("Select an option: ");
+                var option = Console.ReadLine();
+                switch (option)
+                {
+                    case "0":
+                        Console.WriteLine("Thank you for visiting the fitness studio!");
+                        return;
+                    case "1":
+                        Console.Write("Customer name: ");
+                        var customerName = Console.ReadLine();
+                        Console.Write("Customer Address: ");
+                        var customerAddress = Console.ReadLine();
+                        Console.Write("Customer Phone: ");
+                        var CustomerPhone = Console.ReadLine();
+                        Console.Write("Date of Birth: ");
+                        var dateOfBirth = Console.ReadLine();
+                        Console.WriteLine("Select a Membership Type: ");
+                        var membershipTypes = Enum.GetNames(typeof(TypeOfMembership));
+                        for (var i = 0; i < membershipTypes.Length; i++)
+                        {
+                            Console.WriteLine($"{i}. {membershipTypes[i]}");
+                        }
+                        break;
+                    case "2":
+                        
+                        
+
+                        break;
+                        
+                    case "3":
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option! Try again!");
+    
+            }
+
+            }
         }
+
     }
 }

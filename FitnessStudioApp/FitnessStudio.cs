@@ -10,7 +10,7 @@ namespace FitnessStudioApp
     static class FitnessStudio
     {
         private static List<CustomerAccount> customerAccounts = new List<CustomerAccount>();
-        private static List<Classes> fitnessClasses = new List<Classes>();
+        private static List<FitnessClass> fitnessClasses = new List<FitnessClass>();
       
         /// <summary>
         /// Create a new FitnessClass
@@ -26,20 +26,20 @@ namespace FitnessStudioApp
         /// <param name="classSize">Maximum number of participants allowed</param>
         /// <param name="spacesAvailable">Number of Spaces available</param>
         /// <returns>creates a new fitness class</returns>
-        public static Classes CreateClass(
+        public static FitnessClass CreateClass(
             TitleofClass classTitle,
             string classDescription,
             int minimumAge,
             DayOfWeek daysClassOffered,
             string classTimings,
-            DateTime startDate,
-            DateTime endDate,
+            string startDate,
+            string endDate,
             string instructor,
-            int classSize,
-            int spacesAvailable)
+            int classSize=20
+            )
         {
             //Object initialization
-            var fitnessclass = new Classes
+            var fitnessClass = new FitnessClass
             {
                 ClassTitle = classTitle,
                 ClassDescription = classDescription,
@@ -49,11 +49,11 @@ namespace FitnessStudioApp
                 StartDate = startDate,
                 EndDate = endDate,
                 Instructor = instructor,
-                ClassSize = classSize,
-                SpacesAvailable = spacesAvailable
+                ClassSize = classSize
+                
             };
-            fitnessClasses.Add(fitnessclass);
-            return fitnessclass;
+            fitnessClasses.Add(fitnessClass);
+            return fitnessClass;
         }
         /// <summary>
         /// Creates a new Customer Account
@@ -69,7 +69,7 @@ namespace FitnessStudioApp
         string customerName,
             string customerAddress,
             string customerPhone,
-            //DateFormat dateOfBirth,
+            string dateOfBirth,
             TitleofClass classTitle,
             TypeOfMembership membershipType)
         {
@@ -79,14 +79,35 @@ namespace FitnessStudioApp
                 CustomerName = customerName,
                 CustomerAddress = customerAddress,
                 CustomerPhone = customerPhone,
-                //DateofBirth = dateOfBirth,
+                DateofBirth = dateOfBirth,
                 ClassTitle = classTitle,
                 MembershipType = membershipType
             };
             customerAccounts.Add(customerAccount);
             return customerAccount;
         }
-     
+        public static void Signup(int customerID, TitleofClass classTitle,TypeOfMembership price)
+
+        {
+
+            var customerAccount = customerAccounts.SingleOrDefault(a => a.CustomerID == customerID);
+
+            if (customerAccount == null)
+
+            {
+
+                //Exception Handling here
+
+                return;
+
+            }
+
+            customerAccount.SignUp(classTitle, price);
+            
+
+
+
+        }
     }
 }
 
