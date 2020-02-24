@@ -33,7 +33,7 @@ namespace FitnessStudioApp
         private static int lastCustomerID = 0;
         public int CustomerID { get; private set; }
         public string CustomerName { get; set; }
-        public string CustomerAddress { get; set; }
+        public string EmailAddress { get; set; }
         public string CustomerPhone { get; set; }
         public string DateofBirth { get; set; }
         //public int ClassID { get; set; }

@@ -67,7 +67,7 @@ namespace FitnessStudioApp
         /// <returns>Newly created Account</returns>
         public static CustomerAccount CreateAccount(
         string customerName,
-            string customerAddress,
+            string emailAddress,
             string customerPhone,
             string dateOfBirth,
             TitleofClass classTitle,
@@ -77,7 +77,7 @@ namespace FitnessStudioApp
             var customerAccount = new CustomerAccount
             {
                 CustomerName = customerName,
-                CustomerAddress = customerAddress,
+                EmailAddress = emailAddress,
                 CustomerPhone = customerPhone,
                 DateofBirth = dateOfBirth,
                 ClassTitle = classTitle,
