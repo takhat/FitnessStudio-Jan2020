@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Transactions;
 
 namespace FitnessStudioApp
 {
@@ -11,7 +12,8 @@ namespace FitnessStudioApp
     {
         private static List<CustomerAccount> customerAccounts = new List<CustomerAccount>();
         private static List<FitnessClass> fitnessClasses = new List<FitnessClass>();
-      
+        private static List<Transaction> transactions = new List<Transaction>();
+
         /// <summary>
         /// Create a new FitnessClass
         /// </summary>
@@ -69,9 +71,8 @@ namespace FitnessStudioApp
         string customerName,
             string emailAddress,
             string customerPhone,
-            string dateOfBirth,
-            TitleofClass classTitle,
-            TypeOfMembership membershipType)
+            string dateOfBirth
+            )
         {
             //Object initialization
             var customerAccount = new CustomerAccount
@@ -80,13 +81,12 @@ namespace FitnessStudioApp
                 EmailAddress = emailAddress,
                 CustomerPhone = customerPhone,
                 DateofBirth = dateOfBirth,
-                ClassTitle = classTitle,
-                MembershipType = membershipType
             };
+            
             customerAccounts.Add(customerAccount);
             return customerAccount;
         }
-        public static void Signup(int customerID, TitleofClass classTitle,TypeOfMembership price)
+        public static void BuyAClassPass(int customerID, TitleofClass className, ClassPassOption classPassType)
 
         {
 
@@ -101,12 +101,36 @@ namespace FitnessStudioApp
                 return;
 
             }
+            customerAccount.BuyAClassPass(className, classPassType);
+        }
+        public static void BuyAMembership(int customerID, MembershipOption membershipOption)
 
-            customerAccount.SignUp(classTitle, price);
-            
+        {
 
+            var customerAccount = customerAccounts.SingleOrDefault(a => a.CustomerID == customerID);
 
+            if (customerAccount == null)
 
+            {
+
+                //Exception Handling here
+
+                return;
+
+            }
+            customerAccount.BuyAMembership(membershipOption);
+        }
+        public static void createTransaction(decimal amount, int customerID, TypeOfTransaction transactionType, string description = "")
+        {
+            var transaction = new Transaction
+            {
+                TransactionDate = DateTime.UtcNow,
+                Description = description,
+                Amount = amount,
+                CustomerID = customerID,
+                TransactionType = transactionType
+            };
+            transactions.Add(transaction);
         }
     }
 }

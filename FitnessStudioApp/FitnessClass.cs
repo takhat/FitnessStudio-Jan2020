@@ -6,21 +6,22 @@ using System.Linq;
 
 namespace FitnessStudioApp
 {
-  
     // This represents Fitness Studio App where customers can view, sign up for and withdraw from classes.
     /// </summary>
-    
-    
+    enum TitleofClass
+    {
+        CrossFit=100,
+        HathaYoga=101,
+        MatPilates=102,
+        PowerYoga=103,
+        Swimming=104,
+        ZumbaFitness=105,
+    };
+
     class FitnessClass
     {
-        //private static int lastClassID = 100;
         private int SignUpCount = 0;
-        
         # region Properties
-        /*/// <summary>
-        /// Unique Class ID
-        /// </summary>
-        public int ClassID { get; private set; }*/
         /// <summary>
         /// Select the class Title
         /// </summary>
@@ -52,8 +53,7 @@ namespace FitnessStudioApp
         /// <summary>
         /// Name of the instructor assigned
         /// </summary>
-        public string Instructor { get; set; }
-       
+        public string Instructor { get; set; }   
         /// <summary>
         /// Maximum number of participants allowed
         /// </summary>
@@ -62,28 +62,12 @@ namespace FitnessStudioApp
         /// Spaces still available for registration
         /// </summary>
         public int SpacesAvailable { get; set; }
-        /// <summary>
-        /// Signed Up Customer IDs 
-        /// </summary>
-        private List<int> EnrolledCustomerIDs { get; set; }
         #endregion
-
-
-        #region Constructor
-        /*public FitnessClass()
-        {
-            ClassID = ++lastClassID;
-            
-        }*/
-        #endregion 
-
         #region Methods
-        public void SignUp(int CustomerID)
-
+        public void UpdateClassSize()
         {
             SignUpCount = ++SignUpCount;
             SpacesAvailable = ClassSize - SignUpCount;
-            EnrolledCustomerIDs.Add(CustomerID);
         }
         #endregion
     

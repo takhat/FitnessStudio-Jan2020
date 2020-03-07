@@ -5,30 +5,30 @@ using System.Text;
 
 namespace FitnessStudioApp
 {
-    enum TitleofClass
+    enum YesNo
     {
-        CrossFit,
-        HathaYoga,
-        MatPilates,
-        PowerYoga,
-        Swimming,
-        ZumbaFitness,
-        FlexFit
+        Yes,
+        No
     };
-    enum TypeOfMembership
+    enum ClassPassOption
     {
         FreeTrial = 0,
         SingleClassPass = 20,
         TenClassPass = 180,
-        TwentyClassPass = 350,
-        MonthlyFlexFitPass = 200,
-        QuarterlyFlexFitPass = 500,
-        AnnualFlexFitPass = 900
+        TwentyClassPass = 350, 
     };
+
+    enum MembershipOption
+    {
+        OneWeekUnlimitedFreeTrial = 0,
+        MonthlyUnlimitedClasses = 200,
+        QuarterlyUnlimitedClasses = 500,
+        SixMonthsUnlimitedClasses = 900,
+        AnnualUnlimitedClasses = 1600
+    };
+
     class CustomerAccount
     {
-        
-
         #region Properties
         private static int lastCustomerID = 0;
         public int CustomerID { get; private set; }
@@ -36,9 +36,10 @@ namespace FitnessStudioApp
         public string EmailAddress { get; set; }
         public string CustomerPhone { get; set; }
         public string DateofBirth { get; set; }
-        //public int ClassID { get; set; }
         public TitleofClass ClassTitle { get; set; }
-        public TypeOfMembership MembershipType { get; set; }
+        public ClassPassOption TypeOfClassPass { get; set; }
+        public MembershipOption TypeOfMembership { get; set; }
+        public DateTime MembershipExpires { get; set; }
         public DateTime CustomerSince { get; set; }
         #endregion
         #region Constructor
@@ -49,12 +50,22 @@ namespace FitnessStudioApp
         }
         #endregion
         #region Methods
-        public void SignUp(TitleofClass ClassName, TypeOfMembership Price)
+        public void BuyAClassPass
+            (TitleofClass className, ClassPassOption classPassType)
 
         {
-            ClassTitle = ClassName;
-            MembershipType = Price;
+            ClassTitle = className;
+            TypeOfClassPass = classPassType;
+
         }
+
+        public void BuyAMembership(MembershipOption membershipOption)
+        {
+            TypeOfMembership = membershipOption;
+         
+        }
+
+
         #endregion
 
     }
