@@ -55,6 +55,11 @@ namespace FitnessStudioApp
                         {
                             Console.WriteLine($"{n}.{classpassOptions[n]}");
                         }
+                        var amount = Enum.GetValues(typeof(ClassPassOption));
+                        for (var n = 0; n < amount.Length; n++)
+                        {
+                            Console.WriteLine($"{n}.{amount[n]}");
+                        }
                         var classPass = Enum.Parse<ClassPassOption>(Console.ReadLine());
                         
                         foreach(int i in Enum.GetValues(typeof(ClassPassOption)))
