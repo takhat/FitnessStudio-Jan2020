@@ -25,21 +25,53 @@ namespace FitnessStudioApp
                         Console.WriteLine("Thank you for visiting the fitness studio!");
                         return;
                     case "1":
-                        Console.Write("Customer name: ");
-                        var customerName = Console.ReadLine();
-                        Console.Write("Email Address: ");
-                        var emailAddress = Console.ReadLine();
-                        Console.Write("Customer Phone: ");
-                        var customerPhone = Console.ReadLine();
-                        Console.Write("Date of Birth: ");
-                        var dateOfBirth = Console.ReadLine();
-                        var customerAccount = FitnessStudio.CreateAccount(customerName,emailAddress,customerPhone,dateOfBirth);
-                        Console.WriteLine($"Thank you for joining us. Your Customer ID is: {customerAccount.CustomerID}");
+                        try
+                        {
+                            Console.Write("Customer name: ");
+                            var customerName = Console.ReadLine();
+                            Console.Write("Email Address: ");
+                            var emailAddress = Console.ReadLine();
+                            Console.Write("Customer Phone: ");
+                            var customerPhone = string.Format("{0:(###)###-####}",Console.ReadLine());
+                            Console.Write("Enter Date of Birth in MM/DD/YYYY format: ");
+                            var dateOfBirth = DateTime.Parse(Console.ReadLine());
+                            var customerAccount = FitnessStudio.CreateAccount(customerName, emailAddress, customerPhone, dateOfBirth);
+                            Console.WriteLine($"ID: {customerAccount.CustomerID}, " +
+                                $"CN: {customerAccount.CustomerName}, " +
+                                $"DOB: {customerAccount.DateofBirth:d}, " +
+                                $"JD:{customerAccount.CustomerSince:d}, " +
+                                $"PH: {customerAccount.CustomerPhone}," +
+                                $"EID: {customerAccount.EmailAddress}");
+                        }
+                        catch (System.IO.IOException)
+                        {
+                            Console.WriteLine("Please enter string");
+                        }
+                        catch (OutOfMemoryException omex)
+                        {
+                            Console.WriteLine(omex.Message);
+                        }
+                        catch (ArgumentNullException anx)
+                        {
+                            Console.WriteLine(anx.Message);
+                        }
+                        catch (ArgumentException ax)
+                        {
+                            Console.WriteLine(ax.Message);
+                        }
+                        catch (FormatException fx)
+                        {
+                            Console.WriteLine(fx.Message);
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine("Invalid input. Try again!");
+                        }
+
                         break;
 
                     case "2":
-                        Console.WriteLine("CustomerID: ");
-                        var customerID = Convert.ToInt32(Console.ReadLine());
+
                         Console.WriteLine("Select a class: ");
                         //converting enum into array below then printing values
                         var classNames = Enum.GetNames(typeof(TitleofClass));
@@ -51,41 +83,20 @@ namespace FitnessStudioApp
                         var className = Enum.Parse<TitleofClass>(Console.ReadLine());
                         Console.WriteLine("Select a ClassPass option: ");
                         var classpassOptions = Enum.GetNames(typeof(ClassPassOption));
-                        for (var n = 0; n < classpassOptions.Length; n++)
+                        
+                        var classPassAmounts = (int[])Enum.GetValues(typeof(ClassPassOption));
+                        for (var n = 0; n < classPassAmounts.Length; n++)
                         {
-                            Console.WriteLine($"{n}.{classpassOptions[n]}");
-                        }
-                        var amount = Enum.GetValues(typeof(ClassPassOption));
-                        for (var n = 0; n < amount.Length; n++)
-                        {
-                            Console.WriteLine($"{n}.{amount[n]}");
+                            Console.WriteLine($"{n}.{classpassOptions[n]} - ${classPassAmounts[n]}");
                         }
                         var classPass = Enum.Parse<ClassPassOption>(Console.ReadLine());
+                        var classPassAmount = classPassAmounts[Convert.ToInt32(classPass)];
+                        FitnessStudio.BuyAClassPass(customerID, className, classPass);
+                        FitnessStudio.createTransaction(classPassAmount, customerID, TypeOfTransaction.ClassPass);
+                        Console.WriteLine($"Enjoy your {classpassOptions[Convert.ToInt32(classPass)]} worth ${classPassAmount} for {classNames[Convert.ToInt32(className)]}");
                         
-                        foreach(int i in Enum.GetValues(typeof(ClassPassOption)))
-                        {
-                            Console.WriteLine($"{i}");
-                        }
-                       switch(Convert.ToInt32(classPass))
-                        {
-                            case 0: FitnessStudio.BuyAClassPass(customerID, className, ClassPassOption.FreeTrial);
-                                FitnessStudio.createTransaction(0, customerID, TypeOfTransaction.ClassPass);
-                                Console.WriteLine($"Enjoy your Free Trial Pass for {classNames[Convert.ToInt32(className)]}");
-                                break;
-                            case 1:
-                                FitnessStudio.BuyAClassPass(customerID, className, ClassPassOption.SingleClassPass);
-                                FitnessStudio.createTransaction(20, customerID, TypeOfTransaction.ClassPass);
-                                Console.WriteLine($"Enjoy your Single Class Pass for {classNames[Convert.ToInt32(className)]}");
-                                break;
-                            case 2: FitnessStudio.BuyAClassPass(customerID, className, ClassPassOption.TenClassPass);
-                                FitnessStudio.createTransaction(180, customerID, TypeOfTransaction.ClassPass);
-                                Console.WriteLine($"Enjoy your Ten Class Pass for {classNames[Convert.ToInt32(className)]}");
-                                break;
-                            case 3: FitnessStudio.BuyAClassPass(customerID, className, ClassPassOption.TwentyClassPass);
-                                FitnessStudio.createTransaction(350, customerID, TypeOfTransaction.ClassPass);
-                                Console.WriteLine($"Enjoy your Twenty Class Pass for {classNames[Convert.ToInt32(className)]}");
-                                break;
-                        } 
+                        
+                        
                         /*Console.WriteLine("Would you like to add another Class?: ");
                         var yesNo = Enum.GetNames(typeof(YesNo));
                         for (var i=0; i<yesNo.Length; i++)
@@ -94,49 +105,63 @@ namespace FitnessStudioApp
                         }
                         var yesNoOption = Enum.Parse<YesNo>(Console.ReadLine());
                         Console.WriteLine(yesNoOption);
-                        while (true)
+                        if (yesNoOption == 0)
                         {
-                            for (var i = 0; i < classNames.Length; i++)
+                            for (var index = 0; index < classNames.Length; index++)
                             {
-                                Console.WriteLine($"{i}.{classNames[i]}");
+                                Console.WriteLine($"{index}.{classNames[index]}");
                             }
-                            var className = Enum.Parse<TitleofClass>(Console.ReadLine());
+                            var className1 = Enum.Parse<TitleofClass>(Console.ReadLine());
                             Console.WriteLine("Select a ClassPass option: ");
-                            var classpassOptions = Enum.GetNames(typeof(ClassPassOption));
-                            for (var n = 0; n < classpassOptions.Length; n++)
+
+                            for (var index1 = 0; index1 < classpassOptions.Length; index1++)
                             {
-                                Console.WriteLine($"{n}.{classpassOptions[n]}");
+                                Console.WriteLine($"{index1}.{classpassOptions[index1]} - ${classPassAmounts[index1]}");
                             }
-                        }*/
-
-
+                            var classPass1 = Enum.Parse<ClassPassOption>(Console.ReadLine());
+                            var classPassAmount1 = classPassAmounts[Convert.ToInt32(classPass1)];
+                            FitnessStudio.BuyAClassPass(customerID, className1, classPass1);
+                            FitnessStudio.createTransaction(classPassAmount1, customerID, TypeOfTransaction.ClassPass);
+                            Console.WriteLine($"Enjoy your {classpassOptions[Convert.ToInt32(classPass1)]} worth ${classPassAmount1} for {classNames[Convert.ToInt32(className1)]}");
+                        }
+                        else return;*/
                         break;
                     case "3":
-                        Console.WriteLine("CustomerID: ");
+                        Console.Write("CustomerID: ");
                         var customeriD = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("Select a membership type: ");
+                        Console.Write("Select a membership type: ");
                         //converting enum into array below then printing values
                         var membershipTypes = Enum.GetNames(typeof(MembershipOption));
-
-                        for (var i = 0; i < membershipTypes.Length; i++)
+                        var membershipAmounts = (int[])Enum.GetValues(typeof(MembershipOption));
+                        for (var i = 0; i < membershipAmounts.Length; i++)
                         {
-                            Console.WriteLine($"{i}.{membershipTypes[i]}");
+                            Console.WriteLine($"{i}.{membershipTypes[i]} - ${membershipAmounts[i]}");
                         }
                         var memberType = Enum.Parse<MembershipOption>(Console.ReadLine());
+                        var membershipAmount = membershipAmounts[Convert.ToInt32(memberType)];
                         FitnessStudio.BuyAMembership(customeriD, memberType);
-                        FitnessStudio.createTransaction(0, customeriD, TypeOfTransaction.Membership);
+                        FitnessStudio.createTransaction(membershipAmount, customeriD, TypeOfTransaction.Membership);
+                        Console.WriteLine($"Thank you for buying {membershipTypes[Convert.ToInt32(memberType)]} for ${membershipAmount}");
                         break;
                     case "4":
+                        Console.Write("Enter your Customer ID: ");
+                        var custID = Convert.ToInt32(Console.ReadLine());
+                        var transactions = FitnessStudio.GetAllTransactionsByCustomerID(custID);
+                        foreach(var transaction in transactions)
+                        {
+                            Console.WriteLine($"TiD: {transaction.TransactionID}, TT:{transaction.TransactionType}," +
+                                $"TD: {transaction.TransactionDate}, TA: {transaction.Amount}");
+                        }
                         break;
                     case "5":
                         break;
                     default:
                         Console.WriteLine("Invalid option! Try again!");
                         break;
-
                 }
 
             }
+
         }
 
     }

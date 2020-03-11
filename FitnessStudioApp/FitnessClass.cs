@@ -70,8 +70,5 @@ namespace FitnessStudioApp
             SpacesAvailable = ClassSize - SignUpCount;
         }
         #endregion
-    
     }
-
-    
 }

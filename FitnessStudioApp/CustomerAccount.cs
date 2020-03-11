@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace FitnessStudioApp
@@ -35,7 +36,7 @@ namespace FitnessStudioApp
         public string CustomerName { get; set; }
         public string EmailAddress { get; set; }
         public string CustomerPhone { get; set; }
-        public string DateofBirth { get; set; }
+        public DateTime DateofBirth { get; set; }
         public TitleofClass ClassTitle { get; set; }
         public ClassPassOption TypeOfClassPass { get; set; }
         public MembershipOption TypeOfMembership { get; set; }

@@ -71,7 +71,7 @@ namespace FitnessStudioApp
         string customerName,
             string emailAddress,
             string customerPhone,
-            string dateOfBirth
+            DateTime dateOfBirth
             )
         {
             //Object initialization
@@ -86,6 +86,13 @@ namespace FitnessStudioApp
             customerAccounts.Add(customerAccount);
             return customerAccount;
         }
+        /// <summary>
+        /// Buy a class Pass
+        /// </summary>
+        /// <param name="customerID">Unique Customer ID</param>
+        /// <param name="className">Class Name</param>
+        /// <param name="classPassType">Class Pass buying options</param>
+        /// <exception cref="ArgumentException"/>
         public static void BuyAClassPass(int customerID, TitleofClass className, ClassPassOption classPassType)
 
         {
@@ -96,13 +103,18 @@ namespace FitnessStudioApp
 
             {
 
-                //Exception Handling here
-
-                return;
+                throw new ArgumentException("Customer ID is invalid. Try again!");
 
             }
             customerAccount.BuyAClassPass(className, classPassType);
         }
+        
+        /// <summary>
+        /// Buy a Membership
+        /// </summary>
+        /// <param name="customerID">Unique Customer ID</param>
+        /// <param name="membershipOption">Membership Types</param>
+        /// <exception cref="ArgumentException"/>
         public static void BuyAMembership(int customerID, MembershipOption membershipOption)
 
         {
@@ -113,9 +125,7 @@ namespace FitnessStudioApp
 
             {
 
-                //Exception Handling here
-
-                return;
+                throw new ArgumentException("Customer ID is invalid. Try again!");
 
             }
             customerAccount.BuyAMembership(membershipOption);
@@ -132,6 +142,11 @@ namespace FitnessStudioApp
             };
             transactions.Add(transaction);
         }
+        public static IEnumerable<Transaction> GetAllTransactionsByCustomerID(int customerID)
+        {
+            return transactions.Where(t => t.CustomerID == customerID).OrderByDescending(t => t.TransactionDate);
+        }
+
     }
 }
 
