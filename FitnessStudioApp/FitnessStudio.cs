@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Transactions;
+using System.ComponentModel.DataAnnotations;
 
 namespace FitnessStudioApp
 {
@@ -138,7 +139,7 @@ namespace FitnessStudioApp
                 Description = description,
                 Amount = amount,
                 CustomerID = customerID,
-                TransactionType = transactionType
+                TransactionType = transactionType,
             };
             transactions.Add(transaction);
         }

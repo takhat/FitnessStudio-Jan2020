@@ -20,7 +20,7 @@ namespace FitnessStudioApp
 
     class FitnessClass
     {
-        private int SignUpCount = 0;
+
         # region Properties
         /// <summary>
         /// Select the class Title
@@ -58,17 +58,9 @@ namespace FitnessStudioApp
         /// Maximum number of participants allowed
         /// </summary>
         public int ClassSize { get; set; }
-        /// <summary>
-        /// Spaces still available for registration
-        /// </summary>
-        public int SpacesAvailable { get; set; }
+
+        //public int SpacesAvailable { get; set; }
         #endregion
-        #region Methods
-        public void UpdateClassSize()
-        {
-            SignUpCount = ++SignUpCount;
-            SpacesAvailable = ClassSize - SignUpCount;
-        }
-        #endregion
+
     }
 }

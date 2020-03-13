@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text;
 
@@ -11,6 +12,9 @@ namespace FitnessStudioApp
         Yes,
         No
     };
+    /// <summary>
+    /// Class pass types and respective prices in USD
+    /// </summary>
     enum ClassPassOption
     {
         FreeTrial = 0,
@@ -19,6 +23,9 @@ namespace FitnessStudioApp
         TwentyClassPass = 350, 
     };
 
+    /// <summary>
+    /// Membership options and respective prices in USD
+    /// </summary>
     enum MembershipOption
     {
         OneWeekUnlimitedFreeTrial = 0,
@@ -31,16 +38,49 @@ namespace FitnessStudioApp
     class CustomerAccount
     {
         #region Properties
+        /// <summary>
+        /// Constructor variable
+        /// </summary>
         private static int lastCustomerID = 0;
+        /// <summary>
+        /// Unique Customer ID auto generated
+        /// </summary>
         public int CustomerID { get; private set; }
+        /// <summary>
+        /// Customer First and Last Name
+        /// </summary>
         public string CustomerName { get; set; }
+        /// <summary>
+        /// Customer email address
+        /// </summary>
         public string EmailAddress { get; set; }
+        /// <summary>
+        /// Customer phone number
+        /// </summary>
         public string CustomerPhone { get; set; }
+        /// <summary>
+        /// Customer Date of birth
+        /// </summary>
         public DateTime DateofBirth { get; set; }
+        /// <summary>
+        /// Class Types
+        /// </summary>
         public TitleofClass ClassTitle { get; set; }
+        /// <summary>
+        /// Class Pass types
+        /// </summary>
         public ClassPassOption TypeOfClassPass { get; set; }
+        /// <summary>
+        /// Membership Types
+        /// </summary>
         public MembershipOption TypeOfMembership { get; set; }
+        /// <summary>
+        /// Membership Expiration Date
+        /// </summary>
         public DateTime MembershipExpires { get; set; }
+        /// <summary>
+        /// Customer Account Created Date
+        /// </summary>
         public DateTime CustomerSince { get; set; }
         #endregion
         #region Constructor
@@ -63,12 +103,29 @@ namespace FitnessStudioApp
         public void BuyAMembership(MembershipOption membershipOption)
         {
             TypeOfMembership = membershipOption;
-         
+            if (membershipOption == MembershipOption.AnnualUnlimitedClasses)
+            {
+                MembershipExpires = DateTime.UtcNow.AddYears(1);
+            }
+            else if (membershipOption == MembershipOption.MonthlyUnlimitedClasses)
+            {
+                MembershipExpires = DateTime.UtcNow.AddMonths(1);
+            }
+            else if (membershipOption == MembershipOption.OneWeekUnlimitedFreeTrial)
+            {
+                MembershipExpires = DateTime.UtcNow.AddDays(7);
+            }
+            else if (membershipOption == MembershipOption.QuarterlyUnlimitedClasses)
+            {
+                MembershipExpires = DateTime.UtcNow.AddMonths(3);
+            }
+            else if (membershipOption == MembershipOption.SixMonthsUnlimitedClasses)
+            { 
+                MembershipExpires = DateTime.UtcNow.AddMonths(6);
+            } 
         }
 
-
-        #endregion
-
-    }
+    #endregion
+}
 }
 
