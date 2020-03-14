@@ -11,10 +11,7 @@ namespace FitnessStudioApp
 {
     static class FitnessStudio
     {
-        private static List<CustomerAccount> customerAccounts = new List<CustomerAccount>();
-        private static List<FitnessClass> fitnessClasses = new List<FitnessClass>();
-        private static List<Transaction> transactions = new List<Transaction>();
-
+        private static FitnessStudioContext db = new FitnessStudioContext();
         /// <summary>
         /// Create a new FitnessClass
         /// </summary>
@@ -55,7 +52,8 @@ namespace FitnessStudioApp
                 ClassSize = classSize
                 
             };
-            fitnessClasses.Add(fitnessClass);
+            db.FitnessClasses.Add(fitnessClass);
+            db.SaveChanges();
             return fitnessClass;
         }
         /// <summary>
@@ -84,7 +82,8 @@ namespace FitnessStudioApp
                 DateofBirth = dateOfBirth,
             };
             
-            customerAccounts.Add(customerAccount);
+            db.CustomerAccounts.Add(customerAccount);
+            db.SaveChanges();
             return customerAccount;
         }
         /// <summary>
@@ -98,7 +97,7 @@ namespace FitnessStudioApp
 
         {
 
-            var customerAccount = customerAccounts.SingleOrDefault(a => a.CustomerID == customerID);
+            var customerAccount = db.CustomerAccounts.SingleOrDefault(a => a.CustomerID == customerID);
 
             if (customerAccount == null)
 
@@ -108,6 +107,7 @@ namespace FitnessStudioApp
 
             }
             customerAccount.BuyAClassPass(className, classPassType);
+            db.SaveChanges();
         }
         
         /// <summary>
@@ -120,7 +120,7 @@ namespace FitnessStudioApp
 
         {
 
-            var customerAccount = customerAccounts.SingleOrDefault(a => a.CustomerID == customerID);
+            var customerAccount = db.CustomerAccounts.SingleOrDefault(a => a.CustomerID == customerID);
 
             if (customerAccount == null)
 
@@ -130,6 +130,7 @@ namespace FitnessStudioApp
 
             }
             customerAccount.BuyAMembership(membershipOption);
+            db.SaveChanges();
         }
         public static void createTransaction(decimal amount, int customerID, TypeOfTransaction transactionType, string description = "")
         {
@@ -141,13 +142,13 @@ namespace FitnessStudioApp
                 CustomerID = customerID,
                 TransactionType = transactionType,
             };
-            transactions.Add(transaction);
+            db.Transactions.Add(transaction);
+            db.SaveChanges();
         }
         public static IEnumerable<Transaction> GetAllTransactionsByCustomerID(int customerID)
         {
-            return transactions.Where(t => t.CustomerID == customerID).OrderByDescending(t => t.TransactionDate);
+            return db.Transactions.Where(t => t.CustomerID == customerID).OrderByDescending(t => t.TransactionDate);
         }
-
     }
 }
 

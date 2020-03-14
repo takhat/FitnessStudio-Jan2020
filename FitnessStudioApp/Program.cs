@@ -49,21 +49,21 @@ namespace FitnessStudioApp
                         }
                         catch (ArgumentOutOfRangeException)
                         {
-                            Console.WriteLine("Invalid value. Try again");
+                            Console.WriteLine("Invalid Value.Try again!");
                         }
-                        catch (OutOfMemoryException)
+                        catch (ArgumentException ax)
                         {
-                            Console.WriteLine("Invalid value. Try again");
+                            Console.WriteLine(ax.Message);
                         }
-                        catch (FormatException fx)
+                        catch (FormatException)
                         {
-                            Console.WriteLine(fx.Message);
+                            Console.WriteLine("Invalid format. Try again!");
                         }
-                        catch (Exception)
+                        catch(Exception)
                         {
                             Console.WriteLine("Something went wrong. Try again!");
                         }
-                        break;
+                     break;
 
                     case "2":
                         try

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace FitnessStudioApp
 {
-    enum YesNo
+    public enum YesNo
     {
         Yes,
         No
@@ -15,7 +15,7 @@ namespace FitnessStudioApp
     /// <summary>
     /// Class pass types and respective prices in USD
     /// </summary>
-    enum ClassPassOption
+    public enum ClassPassOption
     {
         FreeTrial = 0,
         SingleClassPass = 20,
@@ -26,7 +26,7 @@ namespace FitnessStudioApp
     /// <summary>
     /// Membership options and respective prices in USD
     /// </summary>
-    enum MembershipOption
+    public enum MembershipOption
     {
         OneWeekUnlimitedFreeTrial = 0,
         MonthlyUnlimitedClasses = 200,
@@ -35,13 +35,10 @@ namespace FitnessStudioApp
         AnnualUnlimitedClasses = 1600
     };
 
-    class CustomerAccount
+    public class CustomerAccount
     {
         #region Properties
-        /// <summary>
-        /// Constructor variable
-        /// </summary>
-        private static int lastCustomerID = 0;
+
         /// <summary>
         /// Unique Customer ID auto generated
         /// </summary>
@@ -86,7 +83,6 @@ namespace FitnessStudioApp
         #region Constructor
         public CustomerAccount()
         {
-            CustomerID = ++lastCustomerID;
             CustomerSince = DateTime.UtcNow;
         }
         #endregion
