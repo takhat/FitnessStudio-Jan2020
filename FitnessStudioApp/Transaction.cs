@@ -5,14 +5,11 @@ using System.Transactions;
 
 namespace FitnessStudioApp
 {
-
     public enum TypeOfTransaction
     {
         ClassPass,
         Membership
     }
-
-
     public class Transaction
 
     {
@@ -23,6 +20,5 @@ namespace FitnessStudioApp
         public decimal Amount { get; set; }
         public int CustomerID { get; set; }
         public CustomerAccount CustomerAccount { get; set; }
-  
     }
 }

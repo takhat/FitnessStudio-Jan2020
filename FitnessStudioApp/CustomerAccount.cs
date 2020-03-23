@@ -7,11 +7,6 @@ using System.Text;
 
 namespace FitnessStudioApp
 {
-    public enum YesNo
-    {
-        Yes,
-        No
-    };
     /// <summary>
     /// Class pass types and respective prices in USD
     /// </summary>
@@ -42,7 +37,7 @@ namespace FitnessStudioApp
         /// <summary>
         /// Unique Customer ID auto generated
         /// </summary>
-        public int CustomerID { get; private set; }
+        public int CustomerID { get; set; }
         /// <summary>
         /// Customer First and Last Name
         /// </summary>
@@ -120,7 +115,6 @@ namespace FitnessStudioApp
                 MembershipExpires = DateTime.UtcNow.AddMonths(6);
             } 
         }
-
     #endregion
 }
 }

@@ -18,7 +18,7 @@ namespace FitnessStudioApp
         ZumbaFitness=105,
     };
 
-    class FitnessClass
+    public class FitnessClass
     {
 
         # region Properties
@@ -61,6 +61,5 @@ namespace FitnessStudioApp
 
         //public int SpacesAvailable { get; set; }
         #endregion
-
     }
 }

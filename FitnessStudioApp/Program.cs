@@ -91,7 +91,7 @@ namespace FitnessStudioApp
                             var classPass = Enum.Parse<ClassPassOption>(Console.ReadLine());
                             var classPassAmount = classPassAmounts[Convert.ToInt32(classPass)];
                             FitnessStudio.BuyAClassPass(customerID, className, classPass);
-                            FitnessStudio.createTransaction(classPassAmount, customerID, TypeOfTransaction.ClassPass);
+                            /*FitnessStudio.createTransaction(classPassAmount, customerID, TypeOfTransaction.ClassPass);*/
                             Console.WriteLine($"Enjoy your {classpassOptions[Convert.ToInt32(classPass)]} worth ${classPassAmount} for {classNames[Convert.ToInt32(className)]}");
                         }
                         catch (ArgumentNullException)
@@ -132,7 +132,7 @@ namespace FitnessStudioApp
                             var memberType = Enum.Parse<MembershipOption>(Console.ReadLine());
                             var membershipAmount = membershipAmounts[Convert.ToInt32(memberType)];
                             FitnessStudio.BuyAMembership(customerID, memberType);
-                            FitnessStudio.createTransaction(membershipAmount, customerID, TypeOfTransaction.Membership);
+                            /*FitnessStudio.createTransaction(membershipAmount, customerID, TypeOfTransaction.Membership);*/
                             Console.WriteLine($"Thank you for buying {membershipTypes[Convert.ToInt32(memberType)]} for ${membershipAmount}");
                         }
                         catch (ArgumentNullException)

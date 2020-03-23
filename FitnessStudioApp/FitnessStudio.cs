@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FitnessStudioApp
 {
-    static class FitnessStudio
+    public static class FitnessStudio
     {
         private static FitnessStudioContext db = new FitnessStudioContext();
         /// <summary>
@@ -56,6 +56,7 @@ namespace FitnessStudioApp
             db.SaveChanges();
             return fitnessClass;
         }
+
         /// <summary>
         /// Creates a new Customer Account
         /// </summary>
@@ -97,16 +98,18 @@ namespace FitnessStudioApp
 
         {
 
+
+            var classPassAmounts = (int[])Enum.GetValues(typeof(ClassPassOption));
+            var classPassAmount = classPassAmounts[Convert.ToInt32(classPassType)]; 
             var customerAccount = db.CustomerAccounts.SingleOrDefault(a => a.CustomerID == customerID);
 
             if (customerAccount == null)
 
             {
-
                 throw new ArgumentException("Customer ID is invalid. Try again!");
-
             }
             customerAccount.BuyAClassPass(className, classPassType);
+            createTransaction(classPassAmount, customerID, TypeOfTransaction.ClassPass);
             db.SaveChanges();
         }
         
@@ -119,17 +122,17 @@ namespace FitnessStudioApp
         public static void BuyAMembership(int customerID, MembershipOption membershipOption)
 
         {
-
+            var membershipAmounts = (int[])Enum.GetValues(typeof(MembershipOption));
+            var membershipAmount = membershipAmounts[Convert.ToInt32(membershipOption)];
             var customerAccount = db.CustomerAccounts.SingleOrDefault(a => a.CustomerID == customerID);
 
             if (customerAccount == null)
 
             {
-
                 throw new ArgumentException("Customer ID is invalid. Try again!");
-
             }
             customerAccount.BuyAMembership(membershipOption);
+            createTransaction(membershipAmount, customerID, TypeOfTransaction.Membership);
             db.SaveChanges();
         }
         public static void createTransaction(decimal amount, int customerID, TypeOfTransaction transactionType, string description = "")
@@ -148,6 +151,14 @@ namespace FitnessStudioApp
         public static IEnumerable<Transaction> GetAllTransactionsByCustomerID(int customerID)
         {
             return db.Transactions.Where(t => t.CustomerID == customerID).OrderByDescending(t => t.TransactionDate);
+        }
+        public static IEnumerable<CustomerAccount> GetAccountInfoByEmailAddress(string emailAddress)
+        {
+            return db.CustomerAccounts.Where(a => a.EmailAddress == emailAddress);
+        }
+        public static IEnumerable<CustomerAccount> GetAccountInfoByCustomerID(int customerID)
+        {
+            return db.CustomerAccounts.Where(a => a.CustomerID == customerID);
         }
     }
 }
