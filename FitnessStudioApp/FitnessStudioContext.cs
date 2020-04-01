@@ -19,7 +19,6 @@ namespace FitnessStudioApp
         {
             
         }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = FitnessStudiodbJan20; Integrated Security=True;Connect Timeout=30;");
@@ -45,6 +44,7 @@ namespace FitnessStudioApp
                 .IsRequired();
                 entity.Property(e => e.CustomerSince)
                 .ValueGeneratedOnAdd();
+
             });
 
             modelBuilder.Entity<Transaction>(entity =>

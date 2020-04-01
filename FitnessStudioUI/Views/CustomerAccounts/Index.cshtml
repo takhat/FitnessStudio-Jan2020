@@ -75,7 +75,9 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.CustomerID">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.CustomerID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CustomerID">Delete</a>
+                <a asp-action="GetClassPass" asp-route-id="@item.CustomerID">ClassPass</a> |
+                <a asp-action="Membership" asp-route-id="@item.CustomerID">Membership</a> |
+                <a asp-action="Transactions" asp-route-id="@item.CustomerID">Transactions</a>
             </td>
         </tr>
 }

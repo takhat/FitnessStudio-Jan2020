@@ -73,12 +73,12 @@ namespace FitnessStudioApp
                         
                             Console.WriteLine("Select a class: ");
                             //converting enum into array below then printing values
-                            var classNames = Enum.GetNames(typeof(TitleofClass));
+                            var classNames = Enum.GetNames(typeof(TitleOfClass));
                             for (var i = 0; i < classNames.Length; i++)
                             {
                                 Console.WriteLine($"{i}.{classNames[i]}");
                             }
-                            var className = Enum.Parse<TitleofClass>(Console.ReadLine());
+                            var className = Enum.Parse<TitleOfClass>(Console.ReadLine());
        
                             Console.WriteLine("Select a ClassPass option: ");
                             var classpassOptions = Enum.GetNames(typeof(ClassPassOption));

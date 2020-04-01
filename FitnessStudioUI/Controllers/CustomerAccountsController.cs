@@ -7,35 +7,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FitnessStudioApp;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace FitnessStudioUI.Controllers
 {
     [Authorize]
     public class CustomerAccountsController : Controller
     {
-        private readonly FitnessStudioContext _context;
-
-        public CustomerAccountsController(FitnessStudioContext context)
-        {
-            _context = context;
-        }
-
         // GET: CustomerAccounts
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View(FitnessStudio.GetAccountInfoByEmailAddress(HttpContext.User.Identity.Name));
         }
 
         // GET: CustomerAccounts/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var customerAccount = await _context.CustomerAccounts
-                .FirstOrDefaultAsync(m => m.CustomerID == id);
+            var customerAccount = FitnessStudio.GetAccountInfoByCustomerID(id.Value);
             if (customerAccount == null)
             {
                 return NotFound();
@@ -55,25 +48,25 @@ namespace FitnessStudioUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerName,EmailAddress,CustomerPhone,DateofBirth")] CustomerAccount customerAccount)
+        public IActionResult Create([Bind("CustomerName,EmailAddress,CustomerPhone,DateofBirth")] CustomerAccount customerAccount)
         {
             if (ModelState.IsValid)
             {
-                FitnessStudio.CreateAccount(customerAccount.CustomerName, customerAccount.CustomerPhone, customerAccount.EmailAddress, customerAccount.DateofBirth);
+                FitnessStudio.CreateAccount(customerAccount.CustomerName, customerAccount.EmailAddress, customerAccount.CustomerPhone, customerAccount.DateofBirth);
                 return RedirectToAction(nameof(Index));
             }
             return View(customerAccount);
         }
 
         // GET: CustomerAccounts/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var customerAccount = await _context.CustomerAccounts.FindAsync(id);
+            var customerAccount = FitnessStudio.GetAccountInfoByCustomerID(id.Value);
             if (customerAccount == null)
             {
                 return NotFound();
@@ -86,7 +79,7 @@ namespace FitnessStudioUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomerID,CustomerName,EmailAddress,CustomerPhone,DateofBirth")] CustomerAccount customerAccount)
+        public IActionResult Edit(int id, [Bind("CustomerID,CustomerName,EmailAddress,CustomerPhone,DateofBirth")] CustomerAccount customerAccount)
         {
             if (id != customerAccount.CustomerID)
             {
@@ -95,59 +88,44 @@ namespace FitnessStudioUI.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(customerAccount);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CustomerAccountExists(customerAccount.CustomerID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                FitnessStudio.Update(customerAccount);
                 return RedirectToAction(nameof(Index));
             }
             return View(customerAccount);
         }
-
-        // GET: CustomerAccounts/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult GetClassPass(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var account = FitnessStudio.GetAccountInfoByCustomerID(id.Value);
+            return View(account);
 
-            var customerAccount = await _context.CustomerAccounts
-                .FirstOrDefaultAsync(m => m.CustomerID == id);
-            if (customerAccount == null)
-            {
-                return NotFound();
-            }
-
-            return View(customerAccount);
         }
-
-        // POST: CustomerAccounts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpPost]
+        public IActionResult GetClassPass(IFormCollection controls)
         {
-            var customerAccount = await _context.CustomerAccounts.FindAsync(id);
-            _context.CustomerAccounts.Remove(customerAccount);
-            await _context.SaveChangesAsync();
+            var custID = Convert.ToInt32(controls["CustomerID"]);
+            var classtitle = Enum.Parse<TitleOfClass>(controls["ClassTitle"]);
+            var classpassOption = Enum.Parse<ClassPassOption>(controls["TypeOfClassPass"]);
+            FitnessStudio.BuyAClassPass(custID, classtitle, classpassOption);
             return RedirectToAction(nameof(Index));
         }
-
-        private bool CustomerAccountExists(int id)
+        public IActionResult Membership(int? id)
         {
-            return _context.CustomerAccounts.Any(e => e.CustomerID == id);
+            var account = FitnessStudio.GetAccountInfoByCustomerID(id.Value);
+            return View(account);
+
+        }
+        [HttpPost]
+        public IActionResult Membership(IFormCollection controlsMembership)
+        {
+            var CustID = Convert.ToInt32(controlsMembership["CustomerID"]);
+            var membershipType = Enum.Parse<MembershipOption>(controlsMembership["TypeOfMembership"]);
+            FitnessStudio.BuyAMembership(CustID, membershipType);
+            return RedirectToAction(nameof(Index));
+        }
+        public IActionResult Transactions(int? id)
+        {
+            var transactions = FitnessStudio.GetAllTransactionsByCustomerID(id.Value);
+            return View(transactions);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace FitnessStudioApp
 {
     // This represents Fitness Studio App where customers can view, sign up for and withdraw from classes.
     /// </summary>
-    public enum TitleofClass
+    public enum TitleOfClass
     {
         CrossFit=100,
         HathaYoga=101,
@@ -25,7 +25,7 @@ namespace FitnessStudioApp
         /// <summary>
         /// Select the class Title
         /// </summary>
-        public TitleofClass ClassTitle { get; set; }
+        public TitleOfClass ClassTitle { get; set; }
         /// <summary>
         /// A detailed description of the class
         /// </summary>
