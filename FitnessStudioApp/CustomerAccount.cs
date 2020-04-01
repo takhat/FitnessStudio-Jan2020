@@ -23,7 +23,6 @@ namespace FitnessStudioApp
     /// </summary>
     public enum MembershipOption
     {
-        None = 0,
         OneWeekUnlimitedFreeTrial = 0,
         MonthlyUnlimitedClasses = 200,
         QuarterlyUnlimitedClasses = 500,
@@ -114,10 +113,6 @@ namespace FitnessStudioApp
             else if (membershipOption == MembershipOption.SixMonthsUnlimitedClasses)
             {
                 MembershipExpires = DateTime.UtcNow.AddMonths(6);
-            }
-            else if (membershipOption == MembershipOption.None)
-            {
-                MembershipExpires = DateTime.UtcNow.AddYears(60);
             }
         }
     #endregion
